@@ -2,9 +2,9 @@ import os
 import shutil
 
 source_directories = [
-    os.path.join(os.environ['APPDATA'], 'Local'),
-    os.path.join(os.environ['APPDATA'], 'LocalLow'),
-    os.path.join(os.environ['APPDATA'], 'Roaming'),
+    os.path.join(os.environ['LOCALAPPDATA']),
+    os.path.join(os.environ['LOCALAPPDATA'], '..', 'LocalLow'),
+    os.path.join(os.environ['APPDATA']),
     os.path.join(os.path.expanduser('~'), 'Documents'),
 ]
 
@@ -22,9 +22,13 @@ if not os.path.exists(destination_directory):
 with open(file_path, 'r') as f:
     for line in f:
         folder_name = line.strip()
+        found_folder = False
         for directory in source_directories:
-            if os.path.exists(os.path.join(directory, folder_name)):
+            folder_path = os.path.join(directory, folder_name)
+            if os.path.exists(folder_path):
                 # Copy the folder to the destination directory
-                shutil.copytree(os.path.join(directory, folder_name),
-                                os.path.join(destination_directory, folder_name))
+                shutil.copytree(folder_path, os.path.join(destination_directory, folder_name))
+                found_folder = True
                 break
+        if not found_folder:
+            print(f"Could not find folder '{folder_name}' in any of the directories - {source_directories}")
