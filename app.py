@@ -2,9 +2,19 @@ import os
 import shutil
 
 source_directories = [
+    # AppData/Local
     os.path.join(os.environ['LOCALAPPDATA']),
+    # Appdata/local .. / Appdata/LocalLow
     os.path.join(os.environ['LOCALAPPDATA'], '..', 'LocalLow'),
+    # %APPDATA% - AppData/Roaming
     os.path.join(os.environ['APPDATA']),
+    os.path.join(os.path.expanduser('~'), 'Documents'),
+]
+
+source_directoriess = [
+    os.path.join(os.environ['APPDATA'], 'Local'),
+    os.path.join(os.environ['APPDATA'], 'LocalLow'),
+    os.path.join(os.environ['APPDATA'], 'Roaming'),
     os.path.join(os.path.expanduser('~'), 'Documents'),
 ]
 
